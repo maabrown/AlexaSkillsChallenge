@@ -1,0 +1,4 @@
+GetFarmersMarket what is the nearest farmer's market to {two two five seven two |ZipCode}
+GetFarmersMarket closest market to {ZipCode}
+GetFarmersMarket what are the {{3|Number} closest markets to {ZipCode}
+GetFarmersMarket {2|Number} closest markets to {ZipCode}

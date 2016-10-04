@@ -1,0 +1,17 @@
+{
+  "intents": [
+    {
+      "intent": "GetFarmersMarket",
+      "slots": [
+        {
+          "name": "ZipCode",
+          "type": "NUMBER"
+        },
+        {
+          "number" : "Number",
+          "type" : "NUMBER"
+        }
+      ]
+    }
+  ]
+}
