@@ -57,67 +57,69 @@ var fipsCode = {
 };
 
 var url = function (state) {
-// 	for (var key in fipsCode) {
-// 		if (state == key) {
-// 			state = fipsCode[key];
-// 		}
-// 	}
+  for (var key in fipsCode) {
+    if (state == key) {
+      state = fipsCode[key];
+    }
+  }
     var stateFormatted = state.toString();
-	return 'http://api.census.gov/data/2012/sbo?get=SEX,FIRMALL&for=state:' + stateFormatted + '&key=3859c0c537fc2c737ff6b773da51942f92019e56';
+  return 'http://api.census.gov/data/2012/sbo?get=SEX,FIRMALL&for=state:' + stateFormatted + '&key=' + yourKeyAsAString;
 };
 
-// var url = 'http://api.census.gov/data/2012/sbo?get=SEX,FIRMALL&for=state' + state + ':&key=3859c0c537fc2c737ff6b773da51942f92019e56';
-
 var getResponsefromAPI = function(gender, fipCodeChoice, callback) {
-	http.get(url(fipCodeChoice), function(res) {
-		var body = '';
+  http.get(url(fipCodeChoice), function(res) {
+    var body = '';
 
-		res.on('data', function(data) {
-			body += data;
-		});
+    res.on('data', function(data) {
+      body += data;
+    });
 
-		res.on('end', function() {
-			var result = JSON.parse(body);
-			callback(result);
-		});
-	}).on('error', function(e) {
-		console.log('error ' + e);
-	});
+    res.on('end', function() {
+      var result = JSON.parse(body);
+      callback(result);
+    });
+  }).on('error', function(e) {
+    console.log('error ' + e);
+  });
 };
 
 var getNumbersRequest = function(intent, session, response) {
-	getResponsefromAPI(intent.slots.Gender.value, intent.slots.State.value, function(data) {
+  getResponsefromAPI(intent.slots.Gender.value, intent.slots.State.value, function(data) {
         var text;
-        var carText;
-		if (intent.slots.Gender.value == 'female') {
-			if (data) {
-				text = data[2][1];
-				cardText = "The number of female businesses is " + text;		
-			} else {
-				text = "Please try again";
-				cardText = text;
-			}
-		} else if (intent.slots.Gender.value == 'male') {
-			if (data) {
-				text = data[3][1];
-				cardText = "The number of male businesses is " + text;		
-			} else {
-				text = "Please try again";
-				cardText = text;
-			}
-		} else if (intent.slots.Gender.value == 'equally') {
-			if (data) {
-				text = data[4][1];
-			    cardText = "The number of male businesses is " + text;		
-			} else {
-				text = "Please try again";
-				cardText = text;
-			}
-		}
+        var cardText;
+        var dataValue;
+    if (intent.slots.Gender.value == 'female') {
+      if (data) {
+          dataValue = data[2][1];
+        text = "The number of " + intent.slots.Gender.value + " owned businesses in " + intent.slots.State.value + " is " + dataValue;
+        cardText = text;    
+      } else {
+        text = "Please try again";
+        cardText = text;
+      }
+    } else if (intent.slots.Gender.value == 'male') {
+      if (data) {
+          dataValue = data[3][1];
+        text = "The number of " + intent.slots.Gender.value + " owned businesses in " + intent.slots.State.value + " is " + dataValue;
+        cardText = text;    
+      } else {
+        text = "Please try again";
+        cardText = text;
+      }
+    } else if (intent.slots.Gender.value == 'equally') {
+      if (data) {
+          dataValue = data[4][1];
+        text = "The number of " + intent.slots.Gender.value + " owned businesses in " + intent.slots.State.value + " is " + dataValue;
+          cardText = text;    
+      } else {
+        text = "Please try again";
+        cardText = text;
+      }
+    }
 
-		var heading = "The number of businesses" + " in " + intent.slots.State.value + " is " + text;
-		response.tellWithCard(text, heading, cardText);
-	});
+    var heading = text;
+    response.tellWithCard(text, heading, cardText);
+  });
 };
 
 var BusinessInfo = function(){
@@ -143,6 +145,6 @@ BusinessInfo.prototype.intentHandlers = {
 };
 
 exports.handler = function(event, context) {
-	var skill = new BusinessInfo();
-	skill.execute(event, context);
+  var skill = new BusinessInfo();
+  skill.execute(event, context);
 };
