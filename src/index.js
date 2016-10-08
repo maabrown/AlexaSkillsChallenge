@@ -63,8 +63,10 @@ var url = function (state) {
     }
   }
     var stateFormatted = state.toString();
-  return 'http://api.census.gov/data/2012/sbo?get=SEX,FIRMALL&for=state:' + stateFormatted + '&key=' + yourKeyAsAString;
+  return 'http://api.census.gov/data/2012/sbo?get=SEX,FIRMALL&for=state:' + stateFormatted + '&key=3859c0c537fc2c737ff6b773da51942f92019e56';
 };
+
+// var url = 'http://api.census.gov/data/2012/sbo?get=SEX,FIRMALL&for=state' + state + ':&key=3859c0c537fc2c737ff6b773da51942f92019e56';
 
 var getResponsefromAPI = function(gender, fipCodeChoice, callback) {
   http.get(url(fipCodeChoice), function(res) {
@@ -127,6 +129,7 @@ var BusinessInfo = function(){
 };
 
 BusinessInfo.prototype = Object.create(AlexaSkill.prototype);
+
 BusinessInfo.prototype.constructor = BusinessInfo;
 
 BusinessInfo.prototype.eventHandlers.onLaunch = function(launchRequest, session, response){
