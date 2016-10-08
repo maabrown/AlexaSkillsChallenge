@@ -1,5 +1,8 @@
 # Alexa Open Data Skills Challenge
 
+## Getting Help 
+- [Gitter chat room](https://gitter.im/uscensusbureau/AlexaSkillsChallenge)
+
 ## Data Sources
 
 ### General Data Search
